@@ -1,12 +1,5 @@
 #pragma once
 
-enum TYPE
-{
-    MAJOR,
-    MINOR,
-    DOM7
-};
-
 enum NOTE
 {
     DO = 1,

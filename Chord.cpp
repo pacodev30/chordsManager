@@ -1,41 +1,62 @@
 #include "Chord.h"
 #include "Data.h"
+#include <cstddef>
 #include <iostream>
 
-Chord::Chord(NOTE tonal, TYPE type, std::string color)
-    : _tonal(tonal), _Type(type), _color(color)
-{  }
+Chord::Chord(NOTE tonal)
+    : _tonal(tonal)
+{
+    setName();
+}
 
 Chord::~Chord()
 {  }
 
+std::string Chord::getName() const
+{
+    return _name;
+}
+
 void Chord::printChord() const
 {
     std::cout << "---" << std::endl;
-    std::cout << tonalToString(_tonal) << typeToString(_Type) << _color << std::endl;
+    std::cout << getName() << std::endl;
     std::cout << "Keys :" << std::endl;;
     for(auto item : _notes)
     {
-
         std::cout << keyToString(item.first) << " -> " << noteToString(item.second) << std::endl;
     }
 }
 
 // SETTERS
+void Chord::setName()
+{
+    _name = tonalToString();
+
+    if(_notes.count(TIERCE_min) && !_notes.count(QUINTE_dim)) _name += "m";
+    if(_notes.count(SEPTIEME_min)) _name += "7";
+    if(_notes.count(SIXTE)) _name += "6";
+    if(_notes.count(SECONDE)) _name += "9";
+    if(_notes.count(SECONDE_min)) _name += "9b";
+    if(_notes.count(QUINTE_dim) && !_notes.count(TIERCE_min)) _name += "b5";
+    if(_notes.count(TIERCE_min) && _notes.count(QUINTE_dim)) _name += "dim";
+}
+
 void Chord::addNote(KEY newKey)
 {
     int keyNote = newKey + _tonal;
     if(keyNote > SI) {
-        _notes.insert({newKey, NOTE(keyNote - SI)});
+        _notes.emplace(newKey, NOTE(keyNote - SI));
     } else {
-        _notes.insert({newKey, NOTE(keyNote)});
+        _notes.emplace(newKey, NOTE(keyNote));
     }
+    setName();
 }
 
 // TOSTRING
-std::string Chord::tonalToString(NOTE tonal) const
+std::string Chord::tonalToString() const
 {
-    switch (tonal)
+    switch (_tonal)
     {
     case NOTE::DO: return "C";
     case NOTE::REb: return "Db";
@@ -49,16 +70,6 @@ std::string Chord::tonalToString(NOTE tonal) const
     case NOTE::LA: return "A";
     case NOTE::SIb: return "Bb";
     case NOTE::SI: return "B";
-    }
-}
-
-std::string Chord::typeToString(TYPE type) const
-{
-    switch (type)
-    {
-        case TYPE::MAJOR: return "M";
-        case TYPE::MINOR: return "m";
-        case TYPE::DOM7: return "7";
     }
 }
 
@@ -77,7 +88,7 @@ std::string Chord::keyToString(KEY key) const
     case KEY::QUINTE_dim: return "5dim";
     case KEY::SIXTE: return "6";
     case KEY::SEPTIEME_min: return "7m";
-    case KEY::SEPTIEME: return "7";
+    case KEY::SEPTIEME: return "7M";
     }
 }
 
