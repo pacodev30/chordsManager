@@ -9,15 +9,14 @@ public:
     Chord(NOTE tonal);
     ~Chord();
 
-    // GETTERS
     std::string getName() const;
+
     std::string tonalToString() const;
     std::string keyToString(KEY key) const;
     std::string noteToString(NOTE note) const;
 
     void printChord() const;
 
-    // SETTERS
     void setName();
     void addNote(KEY key);
 

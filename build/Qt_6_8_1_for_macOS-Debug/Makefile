@@ -53,8 +53,10 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../../Chord.cpp \
+		../../ChordManager.cpp \
 		../../main.cpp 
 OBJECTS       = Chord.o \
+		ChordManager.o \
 		main.o
 DIST          = /Users/qt/6.8.1/macos/mkspecs/features/spec_pre.prf \
 		/Users/qt/6.8.1/macos/mkspecs/features/device_config.prf \
@@ -293,7 +295,9 @@ DIST          = /Users/qt/6.8.1/macos/mkspecs/features/spec_pre.prf \
 		/Users/qt/6.8.1/macos/mkspecs/features/yacc.prf \
 		/Users/qt/6.8.1/macos/mkspecs/features/lex.prf \
 		../../../../ChordsManager.pro Chord.h \
+		ChordManager.h \
 		Data.h ../../Chord.cpp \
+		../../ChordManager.cpp \
 		../../main.cpp
 QMAKE_TARGET  = ChordsManager
 DESTDIR       = 
@@ -844,6 +848,11 @@ compiler_clean:
 Chord.o: ../../Chord.cpp ../../Chord.h \
 		../../Data.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Chord.o ../../Chord.cpp
+
+ChordManager.o: ../../ChordManager.cpp ../../ChordManager.h \
+		../../Chord.h \
+		../../Data.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ChordManager.o ../../ChordManager.cpp
 
 main.o: ../../main.cpp ../../Chord.h \
 		../../Data.h

@@ -32,3 +32,16 @@ enum KEY
     SEPTIEME,
 };
 
+enum CHORDTYPE
+{
+    M,
+    M69,
+    M7M,
+    m,
+    m6,
+    m7,
+    Dom7,
+    Dom79b,
+    dim,
+    m7b5
+};

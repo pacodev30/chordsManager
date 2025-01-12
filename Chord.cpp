@@ -33,24 +33,28 @@ void Chord::setName()
 {
     _name = tonalToString();
 
-    if(_notes.count(TIERCE_min) && !_notes.count(QUINTE_dim)) _name += "m";
+    if(_notes.count(TIERCE_min) && _notes.size() >= 3 && !_notes.count(QUINTE_dim)) _name += "m";
     if(_notes.count(SEPTIEME_min)) _name += "7";
+    if(_notes.count(QUINTE_dim) && _notes.size() > 3) _name += "b5";
+    if(_notes.count(QUINTE_dim) && _notes.size() <= 3) _name += "dim";
     if(_notes.count(SIXTE)) _name += "6";
+    if(_notes.count(SEPTIEME)) _name += "7M";
     if(_notes.count(SECONDE)) _name += "9";
     if(_notes.count(SECONDE_min)) _name += "9b";
-    if(_notes.count(QUINTE_dim) && !_notes.count(TIERCE_min)) _name += "b5";
-    if(_notes.count(TIERCE_min) && _notes.count(QUINTE_dim)) _name += "dim";
 }
 
 void Chord::addNote(KEY newKey)
 {
-    int keyNote = newKey + _tonal;
-    if(keyNote > SI) {
-        _notes.emplace(newKey, NOTE(keyNote - SI));
-    } else {
-        _notes.emplace(newKey, NOTE(keyNote));
+    if(!_notes.count(newKey))
+    {
+        int keyNote = newKey + _tonal;
+        if(keyNote > SI) {
+            _notes.emplace(newKey, NOTE(keyNote - SI));
+        } else {
+            _notes.emplace(newKey, NOTE(keyNote));
+        }
+        setName();
     }
-    setName();
 }
 
 // TOSTRING
